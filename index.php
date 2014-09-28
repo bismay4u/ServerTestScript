@@ -1,14 +1,26 @@
-<!DOCTYPE html>
-<html><head>
-	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
 <?php
+$title="Server Test Center";
+$version="v1.2";
+$releaseDate="2014-Sept-28";
+$author="Bismay Kumar Mohapatra";
+$description="Server side script for testing various attributes of server.";
+$_GET['SRC-EMail']="bismay4u@gmail.com";
+
 $cmdArr=array(
 		"phpinfo"=>array("title"=>"PHP Info","cmdtype"=>"eval","data"=>"phpinfo();"),
 		"showini"=>array("title"=>"Show PHP INI","cmdtype"=>"eval","data"=>"printArray(ini_get_all());"),
 		"server"=>array("title"=>"Show Server INFO","cmdtype"=>"eval","data"=>'printServerInfo();'),
 		"testmail"=>array("title"=>"Mail Testing","cmdtype"=>"eval","data"=>"testMail();"),
 	);
+?>
+<!DOCTYPE html>
+<html><head>
+	<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+	<meta charset="UTF-8">
+	<meta name="description" content="<?=$description?>">
+	<meta name="author" content="<?=$author?>">
 
+<?php
 if(isset($_POST['cmd']) && array_key_exists($_POST['cmd'],$cmdArr)) {
 	$cmd=$cmdArr[$_POST['cmd']];
 	
@@ -67,8 +79,12 @@ if(isset($_POST['cmd']) && array_key_exists($_POST['cmd'],$cmdArr)) {
 			</td></tr>
 		</table>
 	</form>
-	<?
+	<?php
 }
+?>
+</body>
+</html>
+<?php
 function printArray($arr) {
 	echo "<pre>";
 	if(is_array($arr)) {
@@ -84,10 +100,8 @@ function printServerInfo() {
 	printArray($_SERVER);
 }
 function testMail() {
-	if(mail('bismay4u@gmail.com','Test Mail '.date('Y/m/d H:i:s'),'Benchmarking Mail'))
+	if(mail($_GET['SRC-EMail'],'Test Mail '.date('Y/m/d H:i:s'),'Benchmarking Mail'))
 		echo "Mail Sent Successfully";
 	else echo "Mail Sent Failed";
 }
 ?>
-</body>
-</html>
